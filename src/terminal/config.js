@@ -33,6 +33,8 @@ export const CONFIG = Object.freeze({
         errorColor: '#ef6161',
         backgroundColor: 'rgba(40,44,52,0)',
         promptColor: '#98c379',
+        textFontSize: 'inherit',
+        textFontFamily: 'inherit'
     },
     templates: {
         prompt: '{{USER}}:{{PATH}}$ ',

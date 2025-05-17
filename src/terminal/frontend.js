@@ -113,6 +113,8 @@ function createStyles() {
                     border: 1px solid ${CONFIG.styles.terminalColor};
                     border-radius: 5px;
                     overflow: hidden;
+                    font-family: ${CONFIG.styles.textFontFamily};
+                    font-size: ${CONFIG.styles.textFontSize};
                 }
 
                .terminal-title {
@@ -156,8 +158,9 @@ function createStyles() {
                     outline: none;
                     color: ${CONFIG.styles.terminalColor};
                     padding: 5px;
-                    width: 200px;
-                    font: inherit;
+                    width: 150px;
+                    font-family: ${CONFIG.styles.textFontFamily};
+                    font-size: ${CONFIG.styles.textFontSize};
                 }
 
                 .button-container {
@@ -173,7 +176,7 @@ function createStyles() {
                     padding: 5px 15px;
                     cursor: pointer;
                     transition: background-color 0.3s;
-                    font-family: inherit;
+                    font-family: ${CONFIG.styles.textFontFamily};
                 }
 
                 .action-btn:hover {

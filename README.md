@@ -1,5 +1,7 @@
 一个运行在浏览器的模拟终端, 不需要任何依赖, 模拟了 Linux 的一些系统调用, 由于水平有限, 并非完全模拟
 
+[https://erzbir.com](https://erzbir.com)
+
 目前尚未完善, 也有很多功能都没有实现
 
 [system](src/system): 模拟系统

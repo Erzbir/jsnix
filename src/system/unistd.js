@@ -116,6 +116,10 @@ export function chown(path, uid, gid) {
     return syscall(SYSCALL_NO.__NR_chown, path, uid, gid);
 }
 
+export function chdir(path) {
+    return syscall(SYSCALL_NO.__NR_chdir, path);
+}
+
 export function getpwuid(uid) {
     return pwd.getpwuid(uid);
 }

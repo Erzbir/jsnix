@@ -15,10 +15,6 @@ export class Passwd {
         this.shell = shell;
     }
 
-    toString() {
-        return `${this.name}:${this.passwd}:${this.uid}:${this.gid}:${this.gecos}:${this.homedir}:${this.shell}`;
-    }
-
     static fromString(line) {
         const parts = line.split(":");
         if (parts.length < 7) return null;
@@ -31,6 +27,10 @@ export class Passwd {
             parts[5],
             parts[6]
         );
+    }
+
+    toString() {
+        return `${this.name}:${this.passwd}:${this.uid}:${this.gid}:${this.gecos}:${this.homedir}:${this.shell}`;
     }
 }
 

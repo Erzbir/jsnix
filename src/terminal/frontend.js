@@ -28,6 +28,10 @@ export function isTyping() {
     return typing;
 }
 
+export function clearOutput() {
+    DOM.output.innerHTML = '';
+}
+
 function createElementWithStyle(tagName, styles = {}, attributes = {}) {
     const element = document.createElement(tagName);
 
@@ -411,6 +415,7 @@ export async function showTemplates(...templateNames) {
     const processedContent = replacePlaceholders(content);
 
     DOM.output.style.display = 'block';
+
     await typeContent(processedContent);
 }
 

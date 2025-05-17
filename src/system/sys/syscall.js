@@ -14,6 +14,7 @@ export const SYSCALL_NO = Object.freeze({
     __NR_lseek: 19,
     __NR_getpid: 39,
     __NR_getcwd: 79,
+    __NR_chdir: 80,
     __NR_mkdir: 83,
     __NR_rmdir: 84,
     __NR_unlink: 87,

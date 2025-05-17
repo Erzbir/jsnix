@@ -1,3 +1,5 @@
+import {getcwd} from "../system/unistd.js";
+
 export function getCurrentTime() {
     return new Date().toLocaleString();
 }
@@ -6,14 +8,41 @@ export function getRandomIP() {
     return Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
 }
 
-const MODE_BITS = Object.freeze({
+export const MODE_BITS = Object.freeze({
     r: 0b100,
     w: 0b010,
     x: 0b001,
 })
 
+export function normalizePath(path) {
+    let base
+    if (path instanceof Array) {
+        base = path.join('/')
+    } else {
+        base = path.startsWith('/') ? '' : getcwd();
+    }
+    const fullPath = base + (base && path ? '/' : '') + path;
 
-function formatMode(mode) {
+    const segments = fullPath.split('/').filter(Boolean);
+    const stack = [];
+
+    for (const segment of segments) {
+        if (segment === '.') {
+
+        } else if (segment === '..') {
+            if (stack.length > 0) {
+                stack.pop();
+            }
+        } else {
+            stack.push(segment);
+        }
+    }
+
+    return '/' + stack.join('/');
+}
+
+
+export function formatMode(mode) {
     const perms = [];
 
     perms.push((mode & 0o400) ? MODE_BITS.r : '-');
@@ -31,7 +60,7 @@ function formatMode(mode) {
     return perms.join('');
 }
 
-function parseMode(mode) {
+export function parseMode(mode) {
     if (typeof mode === 'number') {
         return mode;
     }

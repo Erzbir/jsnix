@@ -12,10 +12,6 @@ export class Group {
         this.members = members;
     }
 
-    toString() {
-        return `${this.name}:${this.password}:${this.gid}:${this.members.join(',')}`;
-    }
-
     static fromString(line) {
         const parts = line.split(":");
         if (parts.length < 4) return null;
@@ -25,6 +21,10 @@ export class Group {
             parseInt(parts[2]),
             parts[3] ? parts[3].split(",").filter(m => m) : []
         );
+    }
+
+    toString() {
+        return `${this.name}:${this.password}:${this.gid}:${this.members.join(',')}`;
     }
 }
 

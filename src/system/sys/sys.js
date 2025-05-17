@@ -643,6 +643,29 @@ function sys_chown(path, uid, gid) {
     return true;
 }
 
+function sys_chdir(path) {
+    const {parent, node} = resolvePath(path);
+
+    if (!parent) {
+        throw new Error(Errno.EPERM);
+    }
+
+    if (!node) {
+        throw new Error(Errno.ENOENT);
+    }
+
+    if (node.type !== FILE_TYPE.DIR) {
+        throw new Error(Errno.ENOTDIR);
+    }
+
+    if (!checkPermission(node, 0o1)) {
+        throw new Error(Errno.EACCES);
+    }
+
+    current().cwd = path;
+    return true;
+}
+
 register_syscall(SYSCALL_NO.__NR_getpid, sys_getpid);
 register_syscall(SYSCALL_NO.__NR_getppid, sys_getppid);
 register_syscall(SYSCALL_NO.__NR_getcwd, sys_getcwd);
@@ -672,3 +695,4 @@ register_syscall(SYSCALL_NO.__NR_stat, sys_stat);
 register_syscall(SYSCALL_NO.__NR_lseek, sys_lseek);
 register_syscall(SYSCALL_NO.__NR_chmod, sys_chmod);
 register_syscall(SYSCALL_NO.__NR_chown, sys_chown);
+register_syscall(SYSCALL_NO.__NR_chdir, sys_chdir);

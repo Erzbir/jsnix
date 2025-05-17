@@ -21,7 +21,7 @@ export const FILE_TYPE = Object.freeze({
  * @param {number} mode
  * @returns {number}
  */
-export function createFile(path, mode) {
+export function createFile(path, mode = 0o644) {
     const fd = open(path, OP_FLAG.O_CREAT, mode);
     close(fd);
     return fd;
@@ -83,7 +83,7 @@ export function appendFile(path, data) {
  * @param {number} mode
  * @returns {number}
  */
-export function open(path, flag, mode = undefined) {
+export function open(path, flag, mode = 0o644) {
     return syscall(SYSCALL_NO.__NR_open, path, flag, mode);
 }
 
@@ -133,7 +133,7 @@ export function close(fd) {
  * @param {number} mode
  * @returns {boolean}
  */
-export function mkdir(path, mode) {
+export function mkdir(path, mode = 0o755) {
     return syscall(SYSCALL_NO.__NR_mkdir, path, mode);
 }
 

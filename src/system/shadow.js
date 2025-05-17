@@ -16,10 +16,6 @@ export class Shadow {
         this.reserved = '';
     }
 
-    toString() {
-        return `${this.name}:${this.password}:${this.lastChanged}:${this.minDays}:${this.maxDays}:${this.warnDays}:${this.inactiveDays}:${this.expireDate}:${this.reserved}`;
-    }
-
     static fromString(line) {
         const parts = line.split(":");
         if (parts.length < 9) return null;
@@ -34,6 +30,10 @@ export class Shadow {
             parts[7]
         );
     }
+
+    toString() {
+        return `${this.name}:${this.password}:${this.lastChanged}:${this.minDays}:${this.maxDays}:${this.warnDays}:${this.inactiveDays}:${this.expireDate}:${this.reserved}`;
+    }
 }
 
 export class GShadow {
@@ -42,10 +42,6 @@ export class GShadow {
         this.password = password;
         this.administrators = Array.isArray(administrators) ? administrators : [administrators];
         this.members = Array.isArray(members) ? members : [members];
-    }
-
-    toString() {
-        return `${this.name}:${this.password}:${this.administrators.join(",")}:${this.members.join(",")}`;
     }
 
     static fromString(line) {
@@ -57,6 +53,10 @@ export class GShadow {
             parts[2] ? parts[2].split(",").filter(m => m) : [],
             parts[3] ? parts[3].split(",").filter(m => m) : []
         );
+    }
+
+    toString() {
+        return `${this.name}:${this.password}:${this.administrators.join(",")}:${this.members.join(",")}`;
     }
 }
 

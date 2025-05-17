@@ -1,5 +1,7 @@
 一个运行在浏览器的模拟终端, 不需要任何依赖, 模拟了 Linux 的一些系统调用, 由于水平有限, 并非完全模拟
 
+密码是一个弱密码, 或者还有其他方式进入
+
 [https://erzbir.com](https://erzbir.com)
 
 目前尚未完善, 也有很多功能都没有实现
@@ -24,7 +26,7 @@
 
 ## 使用方法
 
-1. 使用了 ES Modules, 使用 esbuild 构建 [index.js](src/index.js) 的 bundle 后直接将 script 标签插入网页
+1. 使用 esbuild 构建 [index.js](src/index.js) 的 bundle 后直接将 script 标签插入网页
 
 2. 在你需要展示的位置插入一个标签: `<div id=terminal-banner></div>`
 

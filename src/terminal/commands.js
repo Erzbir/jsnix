@@ -203,7 +203,7 @@ export class LS extends Command {
 
         let result = '';
 
-        result += `${typeChar}${permissions}  ${links}\t${owner}\t${group}\t${size.toString().padStart(8)}\t${timeStr}\t${name}`;
+        result += `${typeChar}${permissions}\t${links}\t${owner}\t${group}\t${size.toString().padStart(8)}\t${timeStr}\t${name}`;
 
         return result;
     }

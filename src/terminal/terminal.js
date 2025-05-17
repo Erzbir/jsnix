@@ -142,7 +142,6 @@ async function handleLogon() {
             setgid(user.gid);
 
             chdir(user.homedir);
-            registerCommands();
         }
 
         init();
@@ -477,4 +476,6 @@ export function main() {
 
     fend.createDOMElements();
     setupEventListeners();
+
+    registerCommands();
 }

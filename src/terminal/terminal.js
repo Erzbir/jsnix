@@ -1,7 +1,5 @@
 import {CONFIG} from "./config.js";
 import * as fend from "./frontend.js";
-import {createDOMElements} from "./frontend.js";
-import * as fs from "../system/fs.js";
 import {appendFile, writeFile} from "../system/fs.js";
 import {getpwnam, getpwuid} from "../system/pwd.js";
 import {chdir, chown, getcwd, getuid, mkdir, setgid, setuid} from "../system/unistd.js";
@@ -54,19 +52,11 @@ const SECURITY = {
     }
 };
 
-class Terminal {
-    constructor() {
-        this.state = STATE;
-        this.security = SECURITY;
-        this.frontend = fend;
-    }
-}
-
 export function execute(command) {
     if (!command) return '';
     STATE.commandHistory.unshift(command);
 
-    fs.appendFile(getpwuid(getuid()).homedir + '/.bash_history', command + "\n")
+    appendFile(getpwuid(getuid()).homedir + '/.bash_history', command + "\n")
 
     STATE.historyIndex = -1;
 
@@ -259,16 +249,16 @@ function showCommandPrompt() {
 
 const commands = {}
 
-const terminal = new Terminal();
-
 class BuiltinCommand extends Command {
-
+    constructor(match, desc, usage) {
+        super(match, desc, usage);
+    }
 }
 
 class Help extends BuiltinCommand {
 
     constructor() {
-        super("help", "help", "help", null);
+        super("help", "help", "help");
     }
 
 
@@ -276,7 +266,7 @@ class Help extends BuiltinCommand {
         let result = '';
         if (!args || args.length === 0) {
             result = "Available commands:\n"
-            Object.entries(commands).forEach(([key, value]) => {
+            Object.entries(commands).forEach(([_, value]) => {
                 result += `${value.match} ${value.usage}\t - ${value.desc}\n`;
 
             })
@@ -291,7 +281,7 @@ class Help extends BuiltinCommand {
 
 class SUDO extends BuiltinCommand {
     constructor() {
-        super("sudo", "sudo", "sudo", null);
+        super("sudo", "sudo", "sudo");
     }
 
     execute(args) {
@@ -310,7 +300,7 @@ class SUDO extends BuiltinCommand {
 
 class Bash extends BuiltinCommand {
     constructor() {
-        super("bahs", "bash", "bash", null);
+        super("bahs", "bash", "bash");
     }
 
     execute(args) {
@@ -327,7 +317,7 @@ class Bash extends BuiltinCommand {
 
 class Exit extends BuiltinCommand {
     constructor() {
-        super("exit", "exit", "exit", null);
+        super("exit", "exit", "exit");
     }
 
     execute(args) {
@@ -338,14 +328,14 @@ class Exit extends BuiltinCommand {
     }
 }
 
-class Clear extends Command {
+class Clear extends BuiltinCommand {
     constructor(terminal) {
         super("clear", "clear", "clear", terminal);
     }
 
     execute(args) {
         setTimeout(() => {
-            this.terminal.frontend.clearOutput();
+            fend.clearOutput();
         }, 100);
         return "";
     }
@@ -404,15 +394,15 @@ export function registerCommand(command) {
 }
 
 function registerCommands() {
-    registerCommand(new LS(terminal));
-    registerCommand(new Stat(terminal));
-    registerCommand(new MKDIR(terminal));
-    registerCommand(new Echo(terminal));
-    registerCommand(new RM(terminal));
-    registerCommand(new Touch(terminal));
-    registerCommand(new Whoami(terminal));
-    registerCommand(new History(terminal));
-    registerCommand(new CAT(terminal));
+    registerCommand(new LS());
+    registerCommand(new Stat());
+    registerCommand(new MKDIR());
+    registerCommand(new Echo());
+    registerCommand(new RM());
+    registerCommand(new Touch());
+    registerCommand(new Whoami());
+    registerCommand(new History());
+    registerCommand(new CAT());
 
     registerCommand(new PWD());
     registerCommand(new CD());
@@ -449,6 +439,7 @@ export function main() {
     if (!document.getElementById(CONFIG.hook)) {
         return;
     }
+
     appendFile("/etc/passwd", `${CONFIG.credential.username}:x:1000:1000::/home/${CONFIG.credential.username}:/bin/bash\n`);
     appendFile("/etc/shadow", `${CONFIG.credential.username}:${CONFIG.credential.password}:2048:0:99999:7:::\n`);
     mkdir(`/home/${CONFIG.credential.username}`, 0o750);
@@ -457,6 +448,6 @@ export function main() {
 
     ctf_init();
 
-    createDOMElements();
+    fend.createDOMElements();
     setupEventListeners();
 }

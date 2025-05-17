@@ -1,4 +1,3 @@
-import * as fs from "../system/fs.js";
 import {appendFile, createFile, FILE_TYPE, mkdir, readFile, rm, stat, writeFile} from "../system/fs.js";
 import {normalizePath} from "./utils.js";
 import {getpwuid} from "../system/pwd.js";
@@ -10,13 +9,11 @@ export class Command {
      * @param {string} match
      * @param {string} desc
      * @param {string} usage
-     * @param {Terminal} terminal
      */
-    constructor(match, desc, usage, terminal) {
+    constructor(match, desc, usage) {
         this.match = match;
         this.desc = desc;
         this.usage = usage;
-        this.terminal = terminal;
     }
 
     /**
@@ -34,8 +31,8 @@ export class Command {
 }
 
 export class LS extends Command {
-    constructor(terminal) {
-        super("ls", "ls", "ls", terminal);
+    constructor() {
+        super("ls", "ls", "ls");
     }
 
 
@@ -43,7 +40,7 @@ export class LS extends Command {
         const path = args.length > 0 ? args[0] : getcwd();
         const normalizedDir = normalizePath(path);
         try {
-            const file = fs.stat(normalizedDir);
+            const file = stat(normalizedDir);
             if (file.type === FILE_TYPE.DIR) {
                 return Object.keys(file.content).sort().join(" ");
             } else {
@@ -56,8 +53,8 @@ export class LS extends Command {
 }
 
 export class MKDIR extends Command {
-    constructor(terminal) {
-        super("mkdir", "mkdir", "mkdir", terminal);
+    constructor() {
+        super("mkdir", "mkdir", "mkdir");
     }
 
     execute(args) {
@@ -103,8 +100,8 @@ export class MKDIR extends Command {
 }
 
 export class Touch extends Command {
-    constructor(terminal) {
-        super("touch", "touch", "touch", terminal);
+    constructor() {
+        super("touch", "touch", "touch");
     }
 
     execute(args) {
@@ -125,8 +122,8 @@ export class Touch extends Command {
 }
 
 export class RM extends Command {
-    constructor(terminal) {
-        super("rm", "rm", "rm", terminal);
+    constructor() {
+        super("rm", "rm", "rm");
     }
 
     execute(args) {
@@ -178,8 +175,8 @@ export class RM extends Command {
 }
 
 export class Stat extends Command {
-    constructor(terminal) {
-        super("stat", "stat", "stat", terminal);
+    constructor() {
+        super("stat", "stat", "stat");
     }
 
     execute(args) {
@@ -212,8 +209,8 @@ export class Stat extends Command {
 }
 
 export class Echo extends Command {
-    constructor(terminal) {
-        super("echo", "echo", "echo", terminal);
+    constructor() {
+        super("echo", "echo", "echo");
     }
 
     execute(args) {
@@ -262,8 +259,8 @@ export class Echo extends Command {
 }
 
 export class Whoami extends Command {
-    constructor(terminal) {
-        super("whoami", "whoami", "whoami", terminal);
+    constructor() {
+        super("whoami", "whoami", "whoami");
     }
 
     execute(args) {
@@ -272,8 +269,8 @@ export class Whoami extends Command {
 }
 
 export class History extends Command {
-    constructor(terminal) {
-        super("history", "history", "history", terminal);
+    constructor() {
+        super("history", "history", "history");
     }
 
     execute(args) {
@@ -292,8 +289,8 @@ export class History extends Command {
 }
 
 export class CAT extends Command {
-    constructor(terminal) {
-        super("cat", "cat", "cat", terminal);
+    constructor() {
+        super("cat", "cat", "cat");
     }
 
     execute(args) {

@@ -14,7 +14,7 @@ export function __main(main, uid, gid, cwd, ...args) {
     new Promise(() => {
         main(args);
     }).then(_ => {
-    })
+    });
 }
 
 mkdir("/boot");

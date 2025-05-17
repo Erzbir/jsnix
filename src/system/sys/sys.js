@@ -297,7 +297,7 @@ function sys_open(path, flag, mode) {
         parent.content[name] = {
             type: FILE_TYPE.FILE,
             content: '',
-            mode: mode || 0o644,
+            mode: mode || (0o666 & (~current().umask)),
             owner: current().euid,
             group: current().egid,
             created: Date.now(),
@@ -486,7 +486,7 @@ function sys_mkdir(path, mode) {
     parent.content[name] = {
         type: FILE_TYPE.DIR,
         content: {},
-        mode: mode || 0o755,
+        mode: mode || (0o777 & (~current().umask)),
         owner: current().euid,
         group: current().egid,
         created: Date.now(),

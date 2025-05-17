@@ -5,7 +5,24 @@ import {getpwnam, getpwuid} from "../system/pwd.js";
 import {chdir, chown, getcwd, getuid, mkdir, setgid, setuid} from "../system/unistd.js";
 import {getspnam} from "../system/shadow.js";
 import {createProcess, setCurrent} from "../system/sys/proc.js";
-import {CAT, Command, Echo, History, LS, MKDIR, RM, Stat, Touch, Whoami} from "./commands.js";
+import {
+    CAT,
+    CHMOD,
+    CHOWN,
+    Command,
+    CP,
+    Echo,
+    GREP,
+    History,
+    LS,
+    MKDIR,
+    MV,
+    RM,
+    Stat,
+    Touch,
+    WC,
+    Whoami
+} from "./commands.js";
 import {normalizePath} from "./utils.js";
 
 const STATE = {
@@ -52,11 +69,11 @@ const SECURITY = {
     }
 };
 
-export function execute(command) {
+export function handleCommand(command) {
     if (!command) return '';
     STATE.commandHistory.unshift(command);
 
-    appendFile(getpwuid(getuid()).homedir + '/.bash_history', command + "\n")
+    appendFile(getpwuid(getuid()).homedir + '/.bash_history', command + "\n", 0o600)
 
     STATE.historyIndex = -1;
 
@@ -187,7 +204,7 @@ function setupEventListeners() {
         if (event.key === 'Enter') {
             const command = fend.DOM.commandInput.value;
             fend.DOM.commandInput.value = '';
-            const output = execute(command);
+            const output = handleCommand(command);
             fend.appendToOutputCmd(command, output, CONFIG.styles.outputColor);
             showCommandPrompt();
         }
@@ -242,7 +259,7 @@ function showCommandPrompt() {
     const cwd = getcwd();
     fend.DOM.commandPrompt.textContent = fend.renderTemplate(CONFIG.templates.prompt, {
         USER: pwuid.name || 'unknow',
-        PATH: (cwd === pwuid.homedir ? '~' : cwd) || '/'
+        PATH: cwd.replace(pwuid.homedir, '~') || '/'
     });
     fend.DOM.commandInput.focus();
 }
@@ -403,6 +420,13 @@ function registerCommands() {
     registerCommand(new Whoami());
     registerCommand(new History());
     registerCommand(new CAT());
+    registerCommand(new CP());
+    registerCommand(new MV());
+    registerCommand(new GREP());
+    registerCommand(new WC());
+    registerCommand(new CHMOD());
+    registerCommand(new CHOWN());
+    registerCommand(new CAT());
 
     registerCommand(new PWD());
     registerCommand(new CD());
@@ -441,7 +465,10 @@ export function main() {
     }
 
     appendFile("/etc/passwd", `${CONFIG.credential.username}:x:1000:1000::/home/${CONFIG.credential.username}:/bin/bash\n`);
+    appendFile("/etc/group", `${CONFIG.credential.username}:x:1000:\n`);
     appendFile("/etc/shadow", `${CONFIG.credential.username}:${CONFIG.credential.password}:2048:0:99999:7:::\n`);
+    appendFile("/etc/gshadow", `${CONFIG.credential.username}:*:1000:\n`);
+
     mkdir(`/home/${CONFIG.credential.username}`, 0o750);
     const pwnam = getpwnam(CONFIG.credential.username);
     chown(`/home/${CONFIG.credential.username}`, pwnam.uid, pwnam.gid);

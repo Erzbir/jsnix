@@ -21,7 +21,7 @@ export const FILE_TYPE = Object.freeze({
  * @param {number} mode
  * @returns {number}
  */
-export function createFile(path, mode = 0o644) {
+export function createFile(path, mode) {
     const fd = open(path, OP_FLAG.O_CREAT, mode);
     close(fd);
     return fd;
@@ -57,7 +57,7 @@ export function readFile(path) {
  * @param {number} mode
  * @returns {number}
  */
-export function writeFile(path, data, mode = 0o644) {
+export function writeFile(path, data, mode) {
     const fd = open(path, OP_FLAG.O_RDWR | OP_FLAG.O_CREAT, mode);
     const content = write(fd, data);
     close(fd);
@@ -67,10 +67,11 @@ export function writeFile(path, data, mode = 0o644) {
 /**
  * @param {string} path
  * @param {string} data
+ * @param {number} mode
  * @returns {number}
  */
-export function appendFile(path, data) {
-    const fd = open(path, OP_FLAG.O_RDWR | OP_FLAG.O_APPEND | OP_FLAG.O_CREAT);
+export function appendFile(path, data, mode) {
+    const fd = open(path, OP_FLAG.O_RDWR | OP_FLAG.O_APPEND | OP_FLAG.O_CREAT, mode);
     const content = write(fd, data);
     close(fd);
     return content;
@@ -83,7 +84,7 @@ export function appendFile(path, data) {
  * @param {number} mode
  * @returns {number}
  */
-export function open(path, flag, mode = 0o644) {
+export function open(path, flag, mode) {
     return syscall(SYSCALL_NO.__NR_open, path, flag, mode);
 }
 
@@ -133,7 +134,7 @@ export function close(fd) {
  * @param {number} mode
  * @returns {boolean}
  */
-export function mkdir(path, mode = 0o755) {
+export function mkdir(path, mode) {
     return syscall(SYSCALL_NO.__NR_mkdir, path, mode);
 }
 

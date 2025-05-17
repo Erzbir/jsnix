@@ -7,7 +7,7 @@ import {getpwnam, getpwuid} from "../system/pwd.js";
 import {chdir, chown, getcwd, getuid, mkdir, setgid, setuid} from "../system/unistd.js";
 import {getspnam} from "../system/shadow.js";
 import {createProcess, setCurrent} from "../system/sys/proc.js";
-import {Command, Echo, History, LS, MKDIR, RM, Stat, Touch, Whoami} from "./commands.js";
+import {CAT, Command, Echo, History, LS, MKDIR, RM, Stat, Touch, Whoami} from "./commands.js";
 import {normalizePath} from "./utils.js";
 
 const STATE = {
@@ -412,7 +412,7 @@ function registerCommands() {
     registerCommand(new Touch(terminal));
     registerCommand(new Whoami(terminal));
     registerCommand(new History(terminal));
-
+    registerCommand(new CAT(terminal));
 
     registerCommand(new PWD());
     registerCommand(new CD());

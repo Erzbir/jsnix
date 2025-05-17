@@ -291,3 +291,26 @@ export class History extends Command {
     }
 }
 
+export class CAT extends Command {
+    constructor(terminal) {
+        super("cat", "cat", "cat", terminal);
+    }
+
+    execute(args) {
+        if (!args || args.length === 0) {
+            throw 'missing file operand';
+        }
+
+        let result = '';
+
+        for (const path of args) {
+            try {
+                const content = readFile(normalizePath(path));
+                result += content;
+            } catch (e) {
+                throw `${path}: ${e}`;
+            }
+        }
+        return result;
+    }
+}

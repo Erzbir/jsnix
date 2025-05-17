@@ -7,3 +7,5 @@
 out
 gen
 build
+dist
+node_modules

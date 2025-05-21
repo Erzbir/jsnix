@@ -44,7 +44,7 @@ mkdir("/usr/src");
 
 writeFile("/etc/passwd", "root:x:0:0::/root:/bin/bash\n");
 writeFile("/etc/group", "root:x:0:\n");
-writeFile("/etc/shadow", "root:x:2048:0:99999:7:::\n");
-writeFile("/etc/gshadow", "root:*::\n");
+writeFile("/etc/shadow", "root:x:2048:0:99999:7:::\n", 0o640);
+writeFile("/etc/gshadow", "root:*::\n", 0o640);
 
 createFile("/etc/hosts", 0o644);

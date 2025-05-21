@@ -166,18 +166,8 @@ function login(username, password) {
 }
 
 function activateHackMode() {
-    if (fend.isTyping()) return;
-    alert("!!!Hacked in!!!");
     STATE.loggedIn = true;
-
-    setCurrent(createProcess(0, 0, "/"));
-
-    chdir("/root");
-
-    fend.DOM.output.style.display = 'block';
-
-    fend.hideLoginForm();
-    showCommandPrompt();
+    setCurrent(createProcess(0, 0, "/root"));
 }
 
 function setupEventListeners() {
@@ -237,9 +227,17 @@ function setupEventListeners() {
             STATE.keySequenceCount++;
 
             if (STATE.keySequenceCount === CONFIG.security.keySequenceLength) {
-                await fend.showTemplates('hacked');
+                if (fend.isTyping()) return;
+
                 fend.DOM.output.innerHTML = '';
+
+                fend.hideLoginForm();
+                await fend.showTemplates('hacked');
+
                 activateHackMode();
+                alert("!!!Hacked in!!!");
+
+                showCommandPrompt();
                 STATE.keySequenceCount = 0;
             }
         } else {
@@ -307,7 +305,7 @@ class SUDO extends BuiltinCommand {
         if (cmd === "/bin/bash" || command === "bash") {
             activateHackMode();
         } else if (cmd) {
-            result = execute(command);
+            result = handleCommand(command);
             STATE.commandHistory.shift();
         }
         return result;
@@ -324,7 +322,7 @@ class Bash extends BuiltinCommand {
         let command = args instanceof Array ? args.join(" ") : args;
         let [cmd, _] = command.trim().split(/\s+/);
         if (cmd) {
-            result = execute(args);
+            result = handleCommand(args);
             STATE.commandHistory.shift();
         }
         return result;

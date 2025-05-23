@@ -361,7 +361,7 @@ class CD extends BuiltinCommand {
     }
 
     execute(args) {
-        let path = args.length > 0 ? args[0] : getcwd();
+        let path = args[0];
         if (!path) {
             try {
                 chdir(normalizePath(getpwuid(getuid()).homedir));

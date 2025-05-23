@@ -1,16 +1,15 @@
-一个运行在浏览器的模拟终端, 不需要任何依赖, 模拟了 Linux 的一些系统调用, 由于水平有限, 并非完全模拟
+一个运行在浏览器的模拟终端, 不需要任何依赖
 
-密码是一个弱密码, 或者还有其他方式进入
+一个示例: [https://erzbir.com](https://erzbir.com)
 
-一个示例:
-[https://erzbir.com](https://erzbir.com)
+密码是 admin
 
 ## 使用方法
 
 1. 构建项目: `sh build.sh`
 2. 在你需要展示的位置插入一个标签: `<div id=terminal-banner></div>`
 
-可以在 config.js 中通过 hook 字段自定义容器的 id
+可以在 config.js 中通过 `hook` 字段自定义容器的 id
 
 可以把这个放在你的博客:
 

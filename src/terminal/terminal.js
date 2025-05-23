@@ -474,6 +474,7 @@ export function main() {
 
     fend.createDOMElements();
     setupEventListeners();
+    fend.DOM.inputs.password.focus();
 
     registerCommands();
 }

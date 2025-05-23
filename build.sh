@@ -1,1 +1,1 @@
- npx esbuild src/index.js --bundle --outfile=build/bundle.js
+ npx esbuild src/index.js --bundle --minify --outfile=build/bundle.js

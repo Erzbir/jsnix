@@ -245,11 +245,11 @@ function resolvePath(path) {
 
     for (let i = 0; i < segments.length - 1; i++) {
         if (!current.content[segments[i]] || current.content[segments[i]].type !== FILE_TYPE.DIR) {
-            throw new Error(Errno.ENOENT);
+            throw Errno.ENOENT;
         }
 
         if (!checkPermission(current.content[segments[i]], 0o1)) {
-            throw new Error(Errno.EACCES);
+            throw Errno.EACCES;
         }
 
         current = current.content[segments[i]];
@@ -275,7 +275,7 @@ function sys_open(path, flag, mode) {
             ((flag & O_ACC_MODE) === OP_FLAG.O_WRONLY) ? 0o2 : 0o6;
 
         if (!checkPermission(ROOT['/'], requiredPerm)) {
-            throw new Error(Errno.EACCES);
+            throw Errno.EACCES;
         }
 
         const fd = nextFd++;
@@ -291,7 +291,7 @@ function sys_open(path, flag, mode) {
 
     if ((flag & OP_FLAG.O_CREAT) && !parent.content[name]) {
         if (!checkPermission(parent, 0o2)) {
-            throw new Error(Errno.EACCES);
+            throw Errno.EACCES;
         }
 
         parent.content[name] = {
@@ -304,22 +304,22 @@ function sys_open(path, flag, mode) {
             modified: Date.now()
         };
     } else if ((flag & OP_FLAG.O_CREAT) && (flag & OP_FLAG.O_EXCL) && parent.content[name]) {
-        throw new Error(Errno.EEXIST);
+        throw Errno.EEXIST;
     } else if (!parent.content[name]) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     const fileNode = parent.content[name];
 
     if (fileNode.type === FILE_TYPE.DIR && ((flag & O_ACC_MODE) !== OP_FLAG.O_RDONLY)) {
-        throw new Error(Errno.EISDIR);
+        throw Errno.EISDIR;
     }
 
     const requiredPerm = ((flag & O_ACC_MODE) === OP_FLAG.O_RDONLY) ? 0o4 :
         ((flag & O_ACC_MODE) === OP_FLAG.O_WRONLY) ? 0o2 : 0o6;
 
     if (!checkPermission(fileNode, requiredPerm)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     if ((flag & OP_FLAG.O_TRUNC) && (flag & O_ACC_MODE) !== OP_FLAG.O_RDONLY) {
@@ -347,17 +347,17 @@ function sys_open(path, flag, mode) {
  */
 function sys_read(fd, length) {
     if (!openFiles[fd]) {
-        throw new Error(Errno.EBADF);
+        throw Errno.EBADF;
     }
 
     const file = openFiles[fd];
 
     if (file.node.type === FILE_TYPE.DIR) {
-        throw new Error(Errno.EISDIR);
+        throw Errno.EISDIR;
     }
 
     if ((file.flag & O_ACC_MODE) === OP_FLAG.O_WRONLY) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     const content = file.node.content;
@@ -381,17 +381,17 @@ function sys_read(fd, length) {
  */
 function sys_write(fd, data) {
     if (!openFiles[fd]) {
-        throw new Error(Errno.EBADF);
+        throw Errno.EBADF;
     }
 
     const file = openFiles[fd];
 
     if (file.node.type === FILE_TYPE.DIR) {
-        throw new Error(Errno.EISDIR);
+        throw Errno.EISDIR;
     }
 
     if ((file.flag & O_ACC_MODE) === OP_FLAG.O_RDONLY) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     const content = file.node.content;
@@ -418,7 +418,7 @@ function sys_write(fd, data) {
  */
 function sys_lseek(fd, offset, whence) {
     if (!openFiles[fd]) {
-        throw new Error(Errno.EBADF);
+        throw Errno.EBADF;
     }
 
     const file = openFiles[fd];
@@ -435,15 +435,15 @@ function sys_lseek(fd, offset, whence) {
             if (file.node.type === FILE_TYPE.FILE) {
                 newPosition = file.node.content.length + offset;
             } else {
-                throw new Error(Errno.EISDIR);
+                throw Errno.EISDIR;
             }
             break;
         default:
-            throw new Error(Errno.EINVAL);
+            throw Errno.EINVAL;
     }
 
     if (newPosition < 0) {
-        throw new Error(Errno.EINVAL);
+        throw Errno.EINVAL;
     }
 
     file.position = newPosition;
@@ -456,7 +456,7 @@ function sys_lseek(fd, offset, whence) {
  */
 function sys_close(fd) {
     if (!openFiles[fd]) {
-        throw new Error(Errno.EBADF);
+        throw Errno.EBADF;
     }
 
     delete openFiles[fd];
@@ -472,15 +472,15 @@ function sys_mkdir(path, mode) {
     const {parent, name} = resolvePath(path);
 
     if (!parent) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (!checkPermission(parent, 0o2)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     if (parent.content[name]) {
-        throw new Error(Errno.EEXIST);
+        throw Errno.EEXIST;
     }
 
     parent.content[name] = {
@@ -504,19 +504,19 @@ function sys_unlink(path) {
     const {parent, name, node} = resolvePath(path);
 
     if (!parent) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (node.type === FILE_TYPE.DIR) {
-        throw new Error(Errno.EISDIR);
+        throw Errno.EISDIR;
     }
 
     if (!checkPermission(parent, 0o2)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     delete parent.content[name];
@@ -531,23 +531,23 @@ function sys_rmdir(path) {
     const {parent, name, node} = resolvePath(path);
 
     if (!parent) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (node.type !== FILE_TYPE.DIR) {
-        throw new Error(Errno.ENOTDIR);
+        throw Errno.ENOTDIR;
     }
 
     if (Object.keys(node.content).length > 0) {
-        throw new Error(Errno.ENOTEMPTY);
+        throw Errno.ENOTEMPTY;
     }
 
     if (!checkPermission(parent, 0o2)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     delete parent.content[name];
@@ -562,20 +562,20 @@ function sys_stat(path) {
     const {parent, name, node} = resolvePath(path);
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (!parent) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (!checkPermission(parent, 0o1)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     if (node.type === FILE_TYPE.DIR) {
         if (!checkPermission(node, 0o1)) {
-            throw new Error(Errno.EACCES);
+            throw Errno.EACCES;
         }
     }
 
@@ -608,11 +608,11 @@ function sys_chmod(path, mode) {
     const {node} = resolvePath(path);
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (current().euid !== 0 && current().euid !== node.owner) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     node.mode = mode & 0o777;
@@ -630,11 +630,11 @@ function sys_chown(path, uid, gid) {
     const {node} = resolvePath(path);
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (current().euid !== 0) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (uid !== -1) node.owner = uid;
@@ -651,19 +651,19 @@ function sys_chdir(path) {
     const {parent, node} = resolvePath(path);
 
     if (!parent) {
-        throw new Error(Errno.EPERM);
+        throw Errno.EPERM;
     }
 
     if (!node) {
-        throw new Error(Errno.ENOENT);
+        throw Errno.ENOENT;
     }
 
     if (node.type !== FILE_TYPE.DIR) {
-        throw new Error(Errno.ENOTDIR);
+        throw Errno.ENOTDIR;
     }
 
     if (!checkPermission(node, 0o1)) {
-        throw new Error(Errno.EACCES);
+        throw Errno.EACCES;
     }
 
     current().cwd = path;

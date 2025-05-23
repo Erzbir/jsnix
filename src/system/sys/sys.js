@@ -643,6 +643,10 @@ function sys_chown(path, uid, gid) {
     return true;
 }
 
+/**
+ * @param {string} path
+ * @returns {boolean}
+ */
 function sys_chdir(path) {
     const {parent, node} = resolvePath(path);
 

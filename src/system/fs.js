@@ -1,4 +1,5 @@
 import {syscall, SYSCALL_NO} from "./sys/syscall.js";
+import * as unistd from "./unistd.js";
 
 export const OP_FLAG = Object.freeze({
     O_RDONLY: 0x0000,
@@ -85,7 +86,7 @@ export function appendFile(path, data, mode) {
  * @returns {number}
  */
 export function open(path, flag, mode) {
-    return syscall(SYSCALL_NO.__NR_open, path, flag, mode);
+    return unistd.open(path, flag, mode);
 }
 
 /**
@@ -96,7 +97,7 @@ export function open(path, flag, mode) {
  * @returns {number}
  */
 export function lseek(fd, offset, whence) {
-    return syscall(SYSCALL_NO.__NR_lseek, fd, offset, length);
+    return unistd.lseek(fd, offset, length);
 }
 
 /**
@@ -106,7 +107,7 @@ export function lseek(fd, offset, whence) {
  * @returns {string}
  */
 export function read(fd, length = undefined) {
-    return syscall(SYSCALL_NO.__NR_read, fd, length);
+    return unistd.read(fd, length);
 }
 
 /**
@@ -116,7 +117,7 @@ export function read(fd, length = undefined) {
  * @returns {number}
  */
 export function write(fd, data) {
-    return syscall(SYSCALL_NO.__NR_write, fd, data);
+    return unistd.write(fd, data);
 }
 
 /**
@@ -125,7 +126,7 @@ export function write(fd, data) {
  * @returns {boolean}
  */
 export function close(fd) {
-    return syscall(SYSCALL_NO.__NR_close, fd);
+    return unistd.close(fd);
 }
 
 /**
@@ -144,7 +145,7 @@ export function mkdir(path, mode) {
  * @returns {boolean}
  */
 export function unlink(path) {
-    return syscall(SYSCALL_NO.__NR_unlink, path);
+    return unistd.unlink(path);
 }
 
 /**
@@ -152,14 +153,14 @@ export function unlink(path) {
  * @returns {boolean}
  */
 export function rmdir(path) {
-    return syscall(SYSCALL_NO.__NR_rmdir, path);
+    return unistd.rmdir(path);
 }
 
 /**
  *
  * @param {string} path
- * @returns {{}}
+ * @returns {object}
  */
 export function stat(path) {
-    return syscall(SYSCALL_NO.__NR_stat, path);
+    return unistd.stat(path);
 }

@@ -2,7 +2,7 @@ import {CONFIG} from "./config.js";
 import * as fend from "./frontend.js";
 import {appendFile, writeFile} from "../system/fs.js";
 import {getpwnam, getpwuid} from "../system/pwd.js";
-import {chdir, chown, getcwd, getuid, mkdir, setgid, setuid} from "../system/unistd.js";
+import {chdir, chown, getcwd, getuid, mkdir} from "../system/unistd.js";
 import {getspnam} from "../system/shadow.js";
 import {createProcess, setCurrent} from "../system/sys/proc.js";
 import {
@@ -279,12 +279,12 @@ class Help extends BuiltinCommand {
         if (!args || args.length === 0) {
             result = "Available commands:\n"
             Object.entries(commands).forEach(([_, value]) => {
-                result += `${value.match} ${value.usage}\t - ${value.desc}\n`;
+                result += `${value.match}\t-\t${value.desc}\n`;
 
             })
         } else {
             const command = commands[args[0]];
-            result = `${command.match} ${command.usage}`;
+            result = `${command.usage}`;
         }
 
         return result;

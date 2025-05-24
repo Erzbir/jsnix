@@ -33,7 +33,7 @@ export class Command {
 
 export class LS extends Command {
     constructor() {
-        super("ls", "ls", "ls");
+        super("ls", "list directory contents", "ls [-a|l|h|t|r|d] [DIR]");
     }
 
 
@@ -275,7 +275,7 @@ export class LS extends Command {
 
 export class MKDIR extends Command {
     constructor() {
-        super("mkdir", "mkdir", "mkdir");
+        super("mkdir", "make directories", "mkdir [-p] DIR");
     }
 
     execute(args) {
@@ -322,7 +322,7 @@ export class MKDIR extends Command {
 
 export class Touch extends Command {
     constructor() {
-        super("touch", "touch", "touch");
+        super("touch", "change file access and modification times", "touch FILE...");
     }
 
     execute(args) {
@@ -344,7 +344,7 @@ export class Touch extends Command {
 
 export class RM extends Command {
     constructor() {
-        super("rm", "rm", "rm");
+        super("rm", "remove directory entries", "rm [-r|R|f] FILE");
     }
 
     execute(args) {
@@ -440,7 +440,7 @@ export class RM extends Command {
 
 export class Stat extends Command {
     constructor() {
-        super("stat", "stat", "stat");
+        super("stat", "display file status", "stat FILE...");
     }
 
     execute(args) {
@@ -474,7 +474,7 @@ export class Stat extends Command {
 
 export class Echo extends Command {
     constructor() {
-        super("echo", "echo", "echo");
+        super("echo", "write arguments to the standard output", "echo [string]");
     }
 
     execute(args) {
@@ -524,7 +524,7 @@ export class Echo extends Command {
 
 export class Whoami extends Command {
     constructor() {
-        super("whoami", "whoami", "whoami");
+        super("whoami", "display effective user id", "whoami");
     }
 
     execute(args) {
@@ -534,7 +534,7 @@ export class Whoami extends Command {
 
 export class History extends Command {
     constructor() {
-        super("history", "history", "history");
+        super("history", "print commands history", "history");
     }
 
     execute(args) {
@@ -554,7 +554,7 @@ export class History extends Command {
 
 export class CAT extends Command {
     constructor() {
-        super("cat", "cat", "cat");
+        super("cat", "concatenate files and print on the standard output", "cat FILE...");
     }
 
     execute(args) {
@@ -578,7 +578,7 @@ export class CAT extends Command {
 
 export class CP extends Command {
     constructor() {
-        super("cp", "cp", "cp");
+        super("cp", "cp", "cp [-r|R|f] SOURCE DEST");
     }
 
     execute(args) {
@@ -673,7 +673,7 @@ export class CP extends Command {
 
 export class MV extends Command {
     constructor() {
-        super("mv", "mv", "mv");
+        super("mv", "move (rename) files", "mv [-f] SOURCE DEST");
     }
 
     execute(args) {
@@ -773,7 +773,7 @@ export class MV extends Command {
 
 export class GREP extends Command {
     constructor() {
-        super("grep", "grep", "grep");
+        super("grep", "print lines that match patterns", "grep [-i|v|n] FILE");
     }
 
     execute(args) {
@@ -850,7 +850,7 @@ export class GREP extends Command {
 
 export class WC extends Command {
     constructor() {
-        super("wc", "wc", "wc");
+        super("wc", "print newline, word, and byte counts for each file", "wc [-l|w|c|m] FILE");
     }
 
     execute(args) {
@@ -974,7 +974,7 @@ export class WC extends Command {
 
 export class CHMOD extends Command {
     constructor() {
-        super("chmod", "chmod", "chmod");
+        super("chmod", "change file mode bits", "chmod [-r|-R] MODE FILE");
     }
 
     execute(args) {
@@ -1040,7 +1040,7 @@ export class CHMOD extends Command {
 
 export class CHOWN extends Command {
     constructor() {
-        super("chown", "chown", "chown");
+        super("chown", "change file owner and group", "chown [-r | -R] OWNER[:GROUP]");
     }
 
     execute(args) {

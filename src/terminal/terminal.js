@@ -272,7 +272,7 @@ class BuiltinCommand extends Command {
 class Help extends BuiltinCommand {
 
     constructor() {
-        super("help", "help", "help");
+        super("help", "display commands help information", "help [COMMAND]");
     }
 
 
@@ -295,7 +295,7 @@ class Help extends BuiltinCommand {
 
 class SUDO extends BuiltinCommand {
     constructor() {
-        super("sudo", "sudo", "sudo");
+        super("sudo", "execute a command as another user", "sudo [COMMAND]");
     }
 
     execute(args) {
@@ -314,7 +314,7 @@ class SUDO extends BuiltinCommand {
 
 class Bash extends BuiltinCommand {
     constructor() {
-        super("bahs", "bash", "bash");
+        super("bahs", "GNU Bourne-Again SHell", "bash [COMMAND]");
     }
 
     execute(args) {
@@ -331,7 +331,7 @@ class Bash extends BuiltinCommand {
 
 class Exit extends BuiltinCommand {
     constructor() {
-        super("exit", "exit", "exit");
+        super("exit", "log out of the system", "exit");
     }
 
     execute(args) {
@@ -343,8 +343,8 @@ class Exit extends BuiltinCommand {
 }
 
 class Clear extends BuiltinCommand {
-    constructor(terminal) {
-        super("clear", "clear", "clear", terminal);
+    constructor() {
+        super("clear", "clear the terminal screen", "clear", null);
     }
 
     execute(args) {
@@ -357,7 +357,7 @@ class Clear extends BuiltinCommand {
 
 class CD extends BuiltinCommand {
     constructor() {
-        super("cd", "cd", "cd", null);
+        super("cd", "change the shell working directory", "cd [DIR]", null);
     }
 
     execute(args) {
@@ -394,7 +394,7 @@ class CD extends BuiltinCommand {
 
 class PWD extends BuiltinCommand {
     constructor() {
-        super("pwd", "pwd", "pwd", null);
+        super("pwd", "print name of current/working directory", "pwd", null);
     }
 
     execute(args) {

@@ -312,7 +312,7 @@ class SUDO extends BuiltinCommand {
 
 class Bash extends BuiltinCommand {
     constructor() {
-        super("bahs", "GNU Bourne-Again SHell", "bash [COMMAND]");
+        super("bash", "GNU Bourne-Again SHell", "bash [COMMAND]");
     }
 
     execute(args) {

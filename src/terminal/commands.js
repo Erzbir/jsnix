@@ -578,7 +578,7 @@ export class CAT extends Command {
 
 export class CP extends Command {
     constructor() {
-        super("cp", "cp", "cp [-r|R|f] SOURCE DEST");
+        super("cp", "copy files and directories", "cp [-r|R|f] SOURCE DEST");
     }
 
     execute(args) {

@@ -138,10 +138,8 @@ async function handleLogon() {
 
         function init() {
             const user = getpwnam(username);
-            setuid(user.uid);
-            setgid(user.gid);
 
-            chdir(user.homedir);
+            setCurrent(createProcess(user.uid, user.gid, user.homedir));
         }
 
         init();

@@ -278,8 +278,20 @@ class Help extends BuiltinCommand {
         let result = '';
         if (!args || args.length === 0) {
             result = "Available commands:\n"
+
+            let len = 0;
+
+            Object.entries(commands).forEach(([key, _]) => {
+                len = Math.max(key.length, len);
+            });
+
             Object.entries(commands).forEach(([_, value]) => {
-                result += `${value.match}\t-\t${value.desc}\n`;
+                let match = value.match;
+                let desc = value.desc;
+
+                match = match.padEnd(len, ' ');
+
+                result += `${match}\t-\t${desc}\n`;
 
             })
         } else {

@@ -178,7 +178,7 @@ const OP_FLAG = Object.freeze({
     O_NOCTTY: 0x0100,
     O_TRUNC: 0x0200,
     O_APPEND: 0x0400,
-})
+});
 
 const FILE_TYPE = Object.freeze({
     DIR: 'd',

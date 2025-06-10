@@ -256,7 +256,11 @@ function showCommandPrompt() {
         USER: pwuid.name || 'unknow',
         PATH: cwd.replace(pwuid.homedir, '~') || '/'
     });
-    fend.DOM.commandPrompt.scrollIntoView({behavior: "smooth"});
+    fend.DOM.commandContainer.scrollIntoView({
+        behavior: "smooth",
+        block: 'nearest',
+        inline: 'nearest'
+    });
     fend.DOM.commandInput.focus();
 }
 

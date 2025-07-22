@@ -15,8 +15,8 @@
 
 可以把这个放在你的博客:
 
-<img src="preview/img1.png" alt="img1">
-<img src="preview/img2.png" alt="img2">
+<img src="preview/img1.png" alt="img1" style="width: 50%; height: auto;">
+<img src="preview/img2.png" alt="img2" style="width: 40%; height: auto;">
 
 ## 修改
 

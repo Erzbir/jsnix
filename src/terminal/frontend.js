@@ -109,9 +109,6 @@ function createStyles() {
     style.textContent = `
                 .terminal-container {
                     color: ${CONFIG.styles.terminalColor};
-                    background-color: ${CONFIG.styles.backgroundColor};
-                    border: 1px solid ${CONFIG.styles.terminalColor};
-                    border-radius: 5px;
                     overflow: hidden;
                     font-family: ${CONFIG.styles.textFontFamily};
                     font-size: ${CONFIG.styles.textFontSize};
@@ -121,7 +118,6 @@ function createStyles() {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    border-bottom: 1px solid ${CONFIG.styles.terminalColor};
                     padding: 8px 15px;
                     font-weight: bold;
                     text-align: left;
@@ -131,7 +127,6 @@ function createStyles() {
                     text-align: center;
                     font-weight: bold;
                     padding: 5px 0;
-                    border-bottom: 1px solid ${CONFIG.styles.terminalColor};
                 }
 
                 .terminal-body {
@@ -154,7 +149,6 @@ function createStyles() {
                 .input-field {
                     background-color: transparent;
                     border: none;
-                    border-bottom: 1px solid ${CONFIG.styles.terminalColor};
                     outline: none;
                     color: ${CONFIG.styles.terminalColor};
                     padding: 5px;
@@ -171,7 +165,6 @@ function createStyles() {
 
                 .action-btn {
                     background-color: transparent;
-                    border: 1px solid ${CONFIG.styles.terminalColor};
                     color: ${CONFIG.styles.terminalColor};
                     padding: 5px 15px;
                     cursor: pointer;
@@ -187,7 +180,8 @@ function createStyles() {
                     display: flex;
                     justify-content: space-between;
                     padding: 8px 15px;
-                    border-top: 1px solid ${CONFIG.styles.terminalColor};
+                    border-top: 1px solid;
+                    border-color: ${CONFIG.styles.terminalColor};
                 }
 
                 .output-content {
@@ -256,7 +250,7 @@ export function createDOMElements() {
     DOM.inputs.username = createElementWithStyle('input', {}, {
         type: 'text',
         id: 'username',
-        value: 'erzbir',
+        value: CONFIG.credential.username,
         class: 'input-field'
     });
     usernameGroup.appendChild(usernameLabel);
@@ -289,9 +283,6 @@ export function createDOMElements() {
     const terminalFooter = document.createElement('div');
     terminalFooter.id = 'terminal-footer';
 
-    const infoFooter = createElementWithStyle('div', {}, {class: 'terminal-footer'});
-    infoFooter.innerHTML = `<div>${CONFIG.github}</div><div>${CONFIG.website}</div>`;
-
     if (CONFIG.additional) {
         const additionalFooter = createElementWithStyle('div', {}, {class: 'terminal-footer'});
         additionalFooter.innerHTML = `<div>${CONFIG.additional}</div>`
@@ -299,7 +290,6 @@ export function createDOMElements() {
         terminalFooter.appendChild(additionalFooter);
     }
 
-    terminalFooter.appendChild(infoFooter);
     terminalContainer.appendChild(terminalFooter);
 
     DOM.output = createElementWithStyle('div', {display: 'none'}, {

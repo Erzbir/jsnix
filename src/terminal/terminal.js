@@ -1,4 +1,4 @@
-import {CONFIG} from "./config.js";
+import {BASE, SECURITY as SECURITY_CONF, STYLES, TEMPLATES} from "./config.js";
 import * as fend from "./frontend.js";
 import {appendFile, writeFile} from "../system/fs.js";
 import {getpwnam, getpwuid} from "../system/pwd.js";
@@ -38,16 +38,16 @@ const STATE = {
 const SECURITY = {
     isSQLInjection(input) {
         if (!input) return false;
-        return CONFIG.security.sqlPattern.test(input);
+        return SECURITY_CONF.sqlPattern.test(input);
     },
 
     isXSS(input) {
         if (!input) return false;
-        return CONFIG.security.xssPattern.test(input);
+        return SECURITY_CONF.xssPattern.test(input);
     },
 
     isTooLong(input) {
-        return input && input.length > CONFIG.security.maxInputLength;
+        return input && input.length > SECURITY_CONF.maxInputLength;
     },
 
     isSecurityThreat(input) {
@@ -127,7 +127,7 @@ async function handleLogon() {
     }
 
     STATE.loginAttempts++;
-    if (STATE.loginAttempts >= CONFIG.security.maxLoginAttempts) {
+    if (STATE.loginAttempts >= SECURITY_CONF.maxLoginAttempts) {
         await fend.showTemplates('sysInfo', 'envCheck', 'hackerAlert');
         alert("ALERT: Hacker detected!");
         return;
@@ -192,7 +192,7 @@ function setupEventListeners() {
             const command = fend.DOM.commandInput.value;
             fend.DOM.commandInput.value = '';
             const output = handleCommand(command);
-            fend.appendToOutputCmd(command, output, CONFIG.styles.outputColor);
+            fend.appendToOutputCmd(command, output, STYLES.outputColor);
             showCommandPrompt();
         }
     });
@@ -221,10 +221,10 @@ function setupEventListeners() {
     document.addEventListener('keydown', async (event) => {
         if (fend.isTyping()) return;
 
-        if (event.key === CONFIG.security.triggerKey) {
+        if (event.key === SECURITY_CONF.triggerKey) {
             STATE.keySequenceCount++;
 
-            if (STATE.keySequenceCount === CONFIG.security.keySequenceLength) {
+            if (STATE.keySequenceCount === SECURITY_CONF.keySequenceLength) {
                 if (fend.isTyping()) return;
 
                 fend.DOM.output.innerHTML = '';
@@ -252,7 +252,7 @@ function showCommandPrompt() {
     fend.DOM.commandContainer.style.display = 'flex';
     const pwuid = getpwuid(getuid());
     const cwd = getcwd();
-    fend.DOM.commandPrompt.textContent = fend.renderTemplate(CONFIG.templates.prompt, {
+    fend.DOM.commandPrompt.textContent = fend.renderTemplate(TEMPLATES.prompt, {
         USER: pwuid.name || 'unknow',
         PATH: cwd.replace(pwuid.homedir, '~') || '/'
     });
@@ -457,13 +457,13 @@ const CTF = Object.freeze({
 });
 
 function ctf_init() {
-    const flag1_path = `/home/${CONFIG.credential.username}/flag.txt`;
-    const hint1_path = `/home/${CONFIG.credential.username}/notes.txt`;
+    const flag1_path = `/home/${SECURITY_CONF.credential.username}/flag.txt`;
+    const hint1_path = `/home/${SECURITY_CONF.credential.username}/notes.txt`;
 
     writeFile(flag1_path, CTF.flag1, 0o600);
     writeFile(hint1_path, CTF.hint1, 0o600);
 
-    const pwnam = getpwnam(CONFIG.credential.username);
+    const pwnam = getpwnam(SECURITY_CONF.credential.username);
     chown(flag1_path, pwnam.uid, pwnam.gid);
     chown(hint1_path, pwnam.uid, pwnam.gid);
 
@@ -472,18 +472,18 @@ function ctf_init() {
 }
 
 export function main() {
-    if (!document.getElementById(CONFIG.hook)) {
+    if (!document.getElementById(BASE.hook)) {
         return;
     }
 
-    appendFile("/etc/passwd", `${CONFIG.credential.username}:x:1000:1000::/home/${CONFIG.credential.username}:/bin/bash\n`);
-    appendFile("/etc/group", `${CONFIG.credential.username}:x:1000:\n`);
-    appendFile("/etc/shadow", `${CONFIG.credential.username}:${CONFIG.credential.password}:2048:0:99999:7:::\n`);
-    appendFile("/etc/gshadow", `${CONFIG.credential.username}:*:1000:\n`);
+    appendFile("/etc/passwd", `${SECURITY_CONF.credential.username}:x:1000:1000::/home/${SECURITY_CONF.credential.username}:/bin/bash\n`);
+    appendFile("/etc/group", `${SECURITY_CONF.credential.username}:x:1000:\n`);
+    appendFile("/etc/shadow", `${SECURITY_CONF.credential.username}:${SECURITY_CONF.credential.password}:2048:0:99999:7:::\n`);
+    appendFile("/etc/gshadow", `${SECURITY_CONF.credential.username}:*:1000:\n`);
 
-    mkdir(`/home/${CONFIG.credential.username}`, 0o750);
-    const pwnam = getpwnam(CONFIG.credential.username);
-    chown(`/home/${CONFIG.credential.username}`, pwnam.uid, pwnam.gid);
+    mkdir(`/home/${SECURITY_CONF.credential.username}`, 0o750);
+    const pwnam = getpwnam(SECURITY_CONF.credential.username);
+    chown(`/home/${SECURITY_CONF.credential.username}`, pwnam.uid, pwnam.gid);
 
     ctf_init();
 

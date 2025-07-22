@@ -1,4 +1,4 @@
-import {CONFIG} from "./config.js";
+import {BASE, SECURITY, STYLES, TEMPLATES} from "./config.js";
 import {getCurrentTime, getRandomIP} from "./utils.js";
 
 export const DOM = {
@@ -51,12 +51,12 @@ function formatCommandOutput(command, output) {
 
 
     const promptSpan = document.createElement('span');
-    promptSpan.style.color = CONFIG.styles.promptColor;
+    promptSpan.style.color = STYLES.promptColor;
     promptSpan.textContent = DOM.commandPrompt.textContent;
 
     const commandSpan = document.createElement('span');
     commandSpan.textContent = command;
-    commandSpan.style.color = CONFIG.styles.inputColor;
+    commandSpan.style.color = STYLES.inputColor;
     commandSpan.style.wordBreak = 'break-all'
 
     const commandContainer = document.createElement('div');
@@ -76,13 +76,13 @@ function formatCommandOutput(command, output) {
             let asciiColor = output.match(/\x1b\[[0-9;]*m/g)[0].toLowerCase();
             switch (asciiColor) {
                 case '\x1b[31m':
-                    outputSpan.style.color = CONFIG.styles.errorColor;
+                    outputSpan.style.color = STYLES.errorColor;
                     break;
                 case '\x1b[32m':
-                    outputSpan.style.color = CONFIG.styles.outputColor;
+                    outputSpan.style.color = STYLES.outputColor;
                     break
                 case '\x1b[33m':
-                    outputSpan.style.color = CONFIG.styles.warnColor;
+                    outputSpan.style.color = STYLES.warnColor;
                     break;
             }
             output = output.replace(/\x1b\[[0-9;]*m/g, '');
@@ -108,10 +108,10 @@ function createStyles() {
     const style = document.createElement('style');
     style.textContent = `
                 .terminal-container {
-                    color: ${CONFIG.styles.terminalColor};
+                    color: ${STYLES.terminalColor};
                     overflow: hidden;
-                    font-family: ${CONFIG.styles.textFontFamily};
-                    font-size: ${CONFIG.styles.textFontSize};
+                    font-family: ${STYLES.textFontFamily};
+                    font-size: ${STYLES.textFontSize};
                 }
 
                .terminal-title {
@@ -150,11 +150,11 @@ function createStyles() {
                     background-color: transparent;
                     border: none;
                     outline: none;
-                    color: ${CONFIG.styles.terminalColor};
+                    color: ${STYLES.terminalColor};
                     padding: 5px;
                     width: 150px;
-                    font-family: ${CONFIG.styles.textFontFamily};
-                    font-size: ${CONFIG.styles.textFontSize};
+                    font-family: ${STYLES.textFontFamily};
+                    font-size: ${STYLES.textFontSize};
                 }
 
                 .button-container {
@@ -165,11 +165,11 @@ function createStyles() {
 
                 .action-btn {
                     background-color: transparent;
-                    color: ${CONFIG.styles.terminalColor};
+                    color: ${STYLES.terminalColor};
                     padding: 5px 15px;
                     cursor: pointer;
                     transition: background-color 0.3s;
-                    font-family: ${CONFIG.styles.textFontFamily};
+                    font-family: ${STYLES.textFontFamily};
                 }
 
                 .action-btn:hover {
@@ -181,11 +181,11 @@ function createStyles() {
                     justify-content: space-between;
                     padding: 8px 15px;
                     border-top: 1px solid;
-                    border-color: ${CONFIG.styles.terminalColor};
+                    border-color: ${STYLES.terminalColor};
                 }
 
                 .output-content {
-                    color: ${CONFIG.styles.printColor};
+                    color: ${STYLES.printColor};
                     white-space: pre-wrap;
                     line-height: 1.5;
                 }
@@ -198,7 +198,7 @@ function createStyles() {
                 }
 
                 .command-prompt {
-                    color: ${CONFIG.styles.promptColor};
+                    color: ${STYLES.promptColor};
                     margin-right: 5px;
                     user-select: none;
                 }
@@ -207,7 +207,7 @@ function createStyles() {
                     background: transparent;
                     border: none;
                     outline: none;
-                    color: ${CONFIG.styles.inputColor};
+                    color: ${STYLES.inputColor};
                     flex-grow: 1;
                     font: inherit;
                 }
@@ -216,7 +216,7 @@ function createStyles() {
 }
 
 export function createDOMElements() {
-    DOM.hook = document.getElementById(CONFIG.hook).attachShadow({mode: 'open'});
+    DOM.hook = document.getElementById(BASE.hook).attachShadow({mode: 'open'});
 
     const terminalContainer = createElementWithStyle('div', {}, {
         id: 'terminal-container',
@@ -229,7 +229,7 @@ export function createDOMElements() {
     terminalContainer.appendChild(terminalHeader);
 
     const terminalTitle = createElementWithStyle('div', {}, {class: 'terminal-title'});
-    terminalTitle.textContent = CONFIG.terminalTitle;
+    terminalTitle.textContent = BASE.terminalTitle;
     terminalHeader.appendChild(terminalTitle);
 
     const terminalLogon = createElementWithStyle('div', {}, {id: 'terminal-logon'});
@@ -237,7 +237,7 @@ export function createDOMElements() {
     DOM.logon = terminalLogon;
 
     const subtitle = createElementWithStyle('div', {}, {class: 'terminal-subtitle'});
-    subtitle.textContent = CONFIG.subtitle;
+    subtitle.textContent = BASE.subtitle;
     terminalHeader.appendChild(subtitle);
     DOM.subtitle = subtitle;
 
@@ -250,7 +250,7 @@ export function createDOMElements() {
     DOM.inputs.username = createElementWithStyle('input', {}, {
         type: 'text',
         id: 'username',
-        value: CONFIG.credential.username,
+        value: SECURITY.credential.username,
         class: 'input-field'
     });
     usernameGroup.appendChild(usernameLabel);
@@ -274,7 +274,7 @@ export function createDOMElements() {
         id: 'ok-btn',
         class: 'action-btn',
     });
-    DOM.inputs.okButton.textContent = CONFIG.buttonText;
+    DOM.inputs.okButton.textContent = STYLES.buttonText;
 
     buttonContainer.appendChild(DOM.inputs.okButton);
     terminalLogon.appendChild(buttonContainer);
@@ -283,9 +283,9 @@ export function createDOMElements() {
     const terminalFooter = document.createElement('div');
     terminalFooter.id = 'terminal-footer';
 
-    if (CONFIG.additional) {
+    if (BASE.additional) {
         const additionalFooter = createElementWithStyle('div', {}, {class: 'terminal-footer'});
-        additionalFooter.innerHTML = `<div>${CONFIG.additional}</div>`
+        additionalFooter.innerHTML = `<div>${BASE.additional}</div>`
 
         terminalFooter.appendChild(additionalFooter);
     }
@@ -343,7 +343,7 @@ export function appendToOutputCmd(command, output, color = '') {
 }
 
 async function typeLoadingLine(baseLine, index, spinDelay = 50, cycles = 10) {
-    const spinner = CONFIG.loadSpinner;
+    const spinner = STYLES.loadSpinner;
     const span = `<span id="loading-spin-${index}">|</span>`;
 
     const currentLine = document.createElement('span');
@@ -360,7 +360,7 @@ async function typeLoadingLine(baseLine, index, spinDelay = 50, cycles = 10) {
         await new Promise(resolve => setTimeout(resolve, spinDelay));
     }
 
-    spinElem.textContent = CONFIG.loadResult;
+    spinElem.textContent = STYLES.loadResult;
 }
 
 export async function typeContent(text) {
@@ -378,8 +378,8 @@ export async function typeContent(text) {
             for (let char of line) {
                 outputContainer.innerHTML += char;
                 const delay = Math.random() *
-                    (CONFIG.typing.maxSpeed - CONFIG.typing.minSpeed) +
-                    CONFIG.typing.minSpeed;
+                    (STYLES.typing.maxSpeed - STYLES.typing.minSpeed) +
+                    STYLES.typing.minSpeed;
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
         }
@@ -388,7 +388,7 @@ export async function typeContent(text) {
 }
 
 export async function showTemplates(...templateNames) {
-    const content = templateNames.map(id => CONFIG.templates[id] || '').join('\n');
+    const content = templateNames.map(id => TEMPLATES[id] || '').join('\n');
 
     function replacePlaceholders(content) {
         const time = getCurrentTime();

@@ -2,14 +2,13 @@ export const CONFIG = Object.freeze({
     hook: 'terminal-banner',
     terminalTitle: 'Blog Security',
     subtitle: 'Hack Logon',
-    additional: 'Is the flag here?',
-    website: 'https://erzbir.com',
+    additional: '',
     github: 'https://github.com/Erzbir/jsnix',
     loadSpinner: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
     loadResult: '✓',
     buttonText: 'OK',
     credential: {
-        username: 'erzbir',
+        username: 'admin',
         password: 'admin'
     },
     typing: {
@@ -25,20 +24,20 @@ export const CONFIG = Object.freeze({
         xssPattern: /['"<>]|<[^>]*>|javascript:|onerror=|onload=|eval\(|setTimeout\(|setInterval\(|\balert\b|\bprompt\b|\bconfirm\b|document\.cookie|document\.write/i
     },
     styles: {
-        terminalColor: '#61afef',
+        terminalColor: 'inherit',
         printColor: '#d5d7d8',
         inputColor: '#98c379',
         outputColor: '#61afef',
         warnColor: '#efc261',
         errorColor: '#ef6161',
-        backgroundColor: 'rgba(40,44,52,0)',
+        backgroundColor: 'inherit',
         promptColor: '#98c379',
         textFontSize: 'inherit',
         textFontFamily: 'inherit'
     },
     templates: {
         prompt: '{{USER}}:{{PATH}}$ ',
-        sysInfo: 'Blog Security Interface Version 3.0.0',
+        sysInfo: 'Blog Security Interface Version 3.0.0 from https://github.com/Erzbir/jsnix',
         envCheck: `[+] Initializing Security Grid...
 [{{LOADING}}] OS Integrity
 [{{LOADING}}] Kernel Module

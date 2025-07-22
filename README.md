@@ -6,8 +6,10 @@
 
 ## 使用方法
 
-1. 构建项目: `sh build.sh`
-2. 在你需要展示的位置插入一个标签: `<div id=terminal-banner></div>`
+1. 构建项目: `make`, dist 目录下是混淆后的产物
+2. 将构建好的 bundle.js 或 main.min.js 中的内容放进 script 标签: `<script>xxxx</script>`
+3. 将这个 `script` 标签插入你的网页
+4. 在你需要展示的位置插入一个标签: `<div id=terminal-banner></div>`
 
 可以在 config.js 中通过 `hook` 字段自定义容器的 id
 
@@ -51,3 +53,8 @@ import {registerCommand} from "./terminal/terminal.js";
 
 registerCommand(new Hello());
 ```
+
+## 开发计划
+- 实现网络请求, 以供访问网站资源
+- 更贴近模拟终端的实现
+- 支持更多命令

@@ -34,5 +34,5 @@ obfuscate: $(DIST_DIR)/main.min.js
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)/*
-	rm -rf $(DIST_DIR)/*
+	@rm -rf $(BUILD_DIR)
+	@rm -rf $(DIST_DIR)

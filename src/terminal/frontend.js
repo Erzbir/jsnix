@@ -201,6 +201,7 @@ function createStyles() {
                     color: ${STYLES.promptColor};
                     margin-right: 5px;
                     user-select: none;
+                    white-space: nowrap;
                 }
 
                 .command-input {

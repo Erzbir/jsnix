@@ -152,7 +152,7 @@ function createStyles() {
                     outline: none;
                     color: ${STYLES.terminalColor};
                     padding: 5px;
-                    width: 150px;
+                    width: 16ch;
                     font-family: ${STYLES.textFontFamily};
                     font-size: ${STYLES.textFontSize};
                 }

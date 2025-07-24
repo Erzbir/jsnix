@@ -170,10 +170,11 @@ function createStyles() {
                     cursor: pointer;
                     transition: background-color 0.3s;
                     font-family: ${STYLES.textFontFamily};
+                    border: none;
                 }
 
                 .action-btn:hover {
-                    background-color: rgba(97, 175, 239, 0.2);
+                    background-color: rgba(0, 0, 0, 0);
                 }
 
                 .terminal-footer {

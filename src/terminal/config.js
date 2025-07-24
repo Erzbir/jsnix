@@ -21,7 +21,7 @@ export const SECURITY = Object.freeze({
 
 export const STYLES = Object.freeze({
     loadSpinner: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
-    loadResult: '✓',
+    loadResult: '*',
     buttonText: 'OK',
     typing: {
         minSpeed: 5,

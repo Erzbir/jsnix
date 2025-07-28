@@ -5,4 +5,4 @@ function run() {
     __main(terminal.main, 0, 0, "/");
 }
 
-run();
+document.addEventListener("DOMContentLoaded", run);

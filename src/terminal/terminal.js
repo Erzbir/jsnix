@@ -456,7 +456,7 @@ const CTF = Object.freeze({
     hint2: '(ALL) NOPASSWD: /bin/bash',
 });
 
-function ctf_init() {
+function init_ctf() {
     const flag1_path = `/home/${SECURITY_CONF.credential.username}/flag.txt`;
     const hint1_path = `/home/${SECURITY_CONF.credential.username}/notes.txt`;
 
@@ -471,11 +471,7 @@ function ctf_init() {
     writeFile("/etc/sudoers", CTF.hint2, 0o644)
 }
 
-export function main() {
-    if (!document.getElementById(BASE.hook)) {
-        return;
-    }
-
+function init_system() {
     appendFile("/etc/passwd", `${SECURITY_CONF.credential.username}:x:1000:1000::/home/${SECURITY_CONF.credential.username}:/bin/bash\n`);
     appendFile("/etc/group", `${SECURITY_CONF.credential.username}:x:1000:\n`);
     appendFile("/etc/shadow", `${SECURITY_CONF.credential.username}:${SECURITY_CONF.credential.password}:2048:0:99999:7:::\n`);
@@ -484,12 +480,20 @@ export function main() {
     mkdir(`/home/${SECURITY_CONF.credential.username}`, 0o750);
     const pwnam = getpwnam(SECURITY_CONF.credential.username);
     chown(`/home/${SECURITY_CONF.credential.username}`, pwnam.uid, pwnam.gid);
+}
 
-    ctf_init();
-
+function init_fronted() {
     fend.createDOMElements();
     setupEventListeners();
     fend.DOM.inputs.password.focus();
+}
 
+export function main() {
+    if (!document.getElementById(BASE.hook)) {
+        return;
+    }
+    init_system();
+    init_ctf();
+    init_fronted()
     registerCommands();
 }

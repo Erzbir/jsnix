@@ -155,6 +155,11 @@ function createStyles() {
                     width: 16ch;
                     font-family: ${STYLES.textFontFamily};
                     font-size: ${STYLES.textFontSize};
+                    -webkit-tap-highlight-color: transparent;
+                }
+                
+                .input-field:active {
+                    background-color: transparent;
                 }
 
                 .button-container {
@@ -265,7 +270,10 @@ export function createDOMElements() {
     DOM.inputs.password = createElementWithStyle('input', {}, {
         type: 'password',
         id: 'password',
-        class: 'input-field'
+        class: 'input-field',
+        autocomplete: 'off',
+        readonly: '',
+        onfocus: "setTimeout(() => this.removeAttribute('readonly'), 50)",
     });
     passwordGroup.appendChild(passwordLabel);
     passwordGroup.appendChild(DOM.inputs.password);

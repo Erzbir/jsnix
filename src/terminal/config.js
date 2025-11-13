@@ -59,7 +59,7 @@ access: PERMISSION DENIED.`,
 Verifying credentials...
 access: SUCCESS
 Is the flag here?
-Erzbir Blog System 3.0.0 #1 SMP PREEMPT_DYNAMIC Sat May 10 15:30:58 CST 2025 x86_64
+Blog System 3.0.0 #1 SMP PREEMPT_DYNAMIC Sat May 10 15:30:58 CST 2025 x86_64
 Last login: {{LAST_LOGIN_TIME}} from {{LOCAL_IP}}`,
     hackerAlert: '**ALERT: Hacker detected!**',
     attackAlert: '**ALERT: Illegal content, hacker detected!**',

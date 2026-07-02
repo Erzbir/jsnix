@@ -1,11 +1,13 @@
-### Example user template template
-### Example user template
-
-# IntelliJ project files
-.idea
+.DS_Store
+.idea/
 *.iml
-out
-gen
-build
-dist
-node_modules
+
+node_modules/
+build/
+dist/
+coverage/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

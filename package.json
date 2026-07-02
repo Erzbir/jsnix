@@ -1,0 +1,47 @@
+{
+  "name": "jsnix",
+  "version": "0.1.0",
+  "description": "Pure JavaScript Linux-like runtime for browser terminal applications.",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "private": false,
+  "sideEffects": [
+    "src/usr/programs/index.js",
+    "src/usr/programs/**/*.js"
+  ],
+  "main": "./dist/release/kernel/jsnix.js",
+  "module": "./dist/release/kernel/jsnix.js",
+  "unpkg": "./dist/release/kernel/jsnix.global.js",
+  "jsdelivr": "./dist/release/kernel/jsnix.global.js",
+  "exports": {
+    ".": {
+      "development": "./dist/debug/kernel/jsnix.js",
+      "import": "./dist/release/kernel/jsnix.js",
+      "default": "./dist/release/kernel/jsnix.js"
+    },
+    "./debug": "./dist/debug/kernel/jsnix.js",
+    "./global": "./dist/release/kernel/jsnix.global.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/release/kernel",
+    "dist/debug/kernel",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build": "make release",
+    "build:debug": "make debug",
+    "build:release": "make release",
+    "build:kernel": "make kernel",
+    "build:apps": "make apps",
+    "clean": "make clean",
+    "prepack": "make release"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "javascript-obfuscator": "^4.2.2"
+  }
+}
